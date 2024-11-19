@@ -12,6 +12,16 @@ class Target(models.Model):
         related_name='targets'
     )
 
+    def __enforce_constraints(self):
+        self.mission.check_has_more_than_one_less_than_three_targets()
+
+    def save(self, *args, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.__enforce_constraints()
+        super().save(
+            *args, force_insert=force_insert, force_update=force_update, using=using,
+            update_fields=update_fields
+        )
+
 
 class TargetNote(models.Model):
     target = models.ForeignKey(
