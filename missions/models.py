@@ -32,10 +32,12 @@ class Mission(models.Model):
     )
     is_complete = models.BooleanField(default=False)
 
-    def clean(self):
-        self.__check_more_than_one_less_than_three_targets()
+    def __enforce_constraints(self):
+        # todo will probably need to enforce the constraints in model manager .update as well
+        self.check_has_more_than_one_less_than_three_targets()
+        self.__check_cat_has_no_other_mission()
 
-    def __check_more_than_one_less_than_three_targets(self):
+    def check_has_more_than_one_less_than_three_targets(self):
         if not (1 <= self.targets.count() <= 3):
             raise ValidationError('A mission must have between 1 and 3 targets.')
 
@@ -49,3 +51,10 @@ class Mission(models.Model):
         if self.cat:
             raise ValidationError('Cannot delete a mission that is assigned to a cat')
         return super().delete(using, keep_parents)
+
+    def save(self, *args, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.__enforce_constraints()
+        super().save(
+            *args, force_insert=force_insert, force_update=force_update, using=using,
+            update_fields=update_fields
+        )
