@@ -19,11 +19,6 @@ class TargetNote(models.Model):
         on_delete=models.RESTRICT,
         related_name='notes'
     )
-    author = models.ForeignKey(
-        'cats.SpyCat',
-        on_delete=models.RESTRICT,
-        related_name='notes'
-    )
     topic = models.CharField(max_length=100)
     content = models.CharField(max_length=1000)
 
