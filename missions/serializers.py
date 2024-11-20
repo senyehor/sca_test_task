@@ -14,12 +14,13 @@ class TargetNoteSerializer(serializers.ModelSerializer):
         fields = ['id', 'target', 'topic', 'content']
 
 
-class TargetSerializer(serializers.ModelSerializer):
+class TargetSerializer(UpdatableFieldsModelSerializerMixin, serializers.ModelSerializer):
     notes = TargetNoteSerializer(many=True, required=False)
 
     class Meta:
         model = Target
         fields = ['id', 'name', 'country', 'is_complete', 'notes']
+        updatable_fields = ('is_complete',)
 
 
 class MissionSerializer(UpdatableFieldsModelSerializerMixin, serializers.ModelSerializer):
