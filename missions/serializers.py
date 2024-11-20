@@ -8,10 +8,11 @@ from missions.models import Mission, Target, TargetNote
 from utils.updatable_fields_model_serializer_mixin import UpdatableFieldsModelSerializerMixin
 
 
-class TargetNoteSerializer(serializers.ModelSerializer):
+class TargetNoteSerializer(UpdatableFieldsModelSerializerMixin, serializers.ModelSerializer):
     class Meta:
         model = TargetNote
         fields = ['id', 'target', 'topic', 'content']
+        updatable_fields = ('topic', 'content')
 
     def update(self, instance: TargetNote, validated_data: dict):
         if instance.target.is_complete or instance.target.mission.is_complete:
