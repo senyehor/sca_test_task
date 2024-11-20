@@ -52,6 +52,7 @@ class MissionSerializer(serializers.ModelSerializer):
         if mission_id := self.initial_data.get('id', None):
             if Mission.objects.filter(cat_id=value).exclude(id=mission_id).exists():
                 raise ValidationError('The cat is already assigned a mission')
+        return value
 
     def validate_targets(self, value):
         if not (Mission.MIN_TARGET_COUNT <= len(value) <= Mission.MAX_TARGET_COUNT):
