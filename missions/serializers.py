@@ -46,7 +46,6 @@ class MissionSerializer(serializers.ModelSerializer):
 
     @method_decorator(atomic)
     def update(self, instance: Mission, validated_data: dict):
-        self.__check_mission_is_not_complete(instance)
         self.__check_validated_data_has_only_updatable_fields(validated_data)
         mission = self.__perform_update(instance, validated_data)
         return mission
@@ -56,10 +55,6 @@ class MissionSerializer(serializers.ModelSerializer):
             setattr(mission, field, value)
         mission.save()
         return mission
-
-    def __check_mission_is_not_complete(self, mission: Mission):
-        if mission.is_complete:
-            raise ValidationError('Cannot update completed mission')
 
     def __check_validated_data_has_only_updatable_fields(self, validated_data: dict):
         validated_fields = set(validated_data.keys())
