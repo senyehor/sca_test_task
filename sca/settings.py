@@ -95,3 +95,5 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CATS_API_KEY = env('CATS_API_KEY')
