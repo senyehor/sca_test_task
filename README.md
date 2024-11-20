@@ -12,8 +12,9 @@ missions. The system allows users to:
 
 1. Install [docker](https://docs.docker.com/engine/install/)
 2. Fork my repo `git clone https://github.com/senyehor/sca_test_task`
-3. Rename `._env` extension to `.env` from `api.production._env` and `db.production._env` *I know it is a crime in production, but it is a sacrifice for you to deploy easily*
-4. Just `run docker-compose up`
+3. Go into the project's directory `cd sca_test_task`
+4. Rename `._env` extension to `.env` from `api.production._env` and `db.production._env` *I know it is a crime in production, but it is a sacrifice for you to deploy easily*
+5. Just run `docker-compose up`
 
 ## Then, you can easily test API using Postman
 
