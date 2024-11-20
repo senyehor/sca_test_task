@@ -62,6 +62,13 @@ DATABASES = {
     'default': env.db_url()
 }
 
+CACHES = {
+    "default": {
+        "BACKEND":  "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "breeds_cache",
+    }
+}
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
