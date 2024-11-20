@@ -20,6 +20,9 @@ class MissionViewSet(ModelViewSet):
             raise DRFValidationError(e.message)
 
     def update(self, request, *args, **kwargs):
-        # DRF considers PUT to have all model's fields and throws an exception
-        # when only some of them are included, which is the desired behavior of updating a mission
-        raise MethodNotAllowed
+        if request.method == 'PUT':
+            # DRF considers PUT to have all model's fields and throws an exception
+            # when only some of them are included,
+            # which is the desired behavior of updating a mission
+            raise MethodNotAllowed('PUT', detail='Mission should be updated using PATCH')
+        return super().update(request, *args, **kwargs)
