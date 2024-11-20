@@ -33,7 +33,7 @@ class MissionSerializer(serializers.ModelSerializer):
         fields = ('id', 'cat', 'is_complete', 'targets')
 
     @method_decorator(atomic)
-    def create(self, validated_data):
+    def create(self, validated_data: dict):
         targets_data = validated_data.pop('targets')
         mission = Mission.objects.create(**validated_data)
         for target_data in targets_data:
