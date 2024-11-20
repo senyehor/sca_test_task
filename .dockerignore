@@ -1,0 +1,13 @@
+*.env
+.idea
+.venv
+.git
+.dockerignore
+.gitignore
+django.conf
+docker-compose.yml
+Dockerfile
+README.md
+requirements.dev.txt
+
+__pycache__/
