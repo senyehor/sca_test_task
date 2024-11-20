@@ -9,7 +9,7 @@ from .serializers import SpyCatSerializer
 
 
 class SpyCatListCreateView(generics.ListCreateAPIView):
-    queryset = SpyCat.objects.all()
+    queryset = SpyCat.objects.all().order_by('id')
     serializer_class = SpyCatSerializer
 
 

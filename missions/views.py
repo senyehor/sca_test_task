@@ -14,8 +14,9 @@ from utils.restrict_methods_for_view_set_method import restrict_methods
 
 
 class MissionViewSet(ModelViewSet):
-    queryset = Mission.objects.all()
+    queryset = Mission.objects.all().order_by('id')
     serializer_class = MissionSerializer
+    ordering = ('id',)
 
     @method_decorator(atomic)
     def destroy(self, request, *args, **kwargs):
