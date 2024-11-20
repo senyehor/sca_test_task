@@ -48,7 +48,7 @@ class MissionSerializer(serializers.ModelSerializer):
     def update(self, instance: Mission, validated_data: dict):
         self.__check_mission_is_not_complete(instance)
         self.__check_validated_data_has_only_updatable_fields(validated_data)
-        mission = self.__perform_update(instance)
+        mission = self.__perform_update(instance, validated_data)
         return mission
 
     def __perform_update(self, mission: Mission, validated_data: dict):
