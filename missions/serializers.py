@@ -5,6 +5,7 @@ from rest_framework.exceptions import ValidationError
 
 from cats.models import SpyCat
 from missions.models import Mission, Target, TargetNote
+from utils.updatable_fields_model_serializer_mixin import UpdatableFieldsModelSerializerMixin
 
 
 class TargetNoteSerializer(serializers.ModelSerializer):
@@ -21,7 +22,7 @@ class TargetSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'country', 'is_complete', 'notes']
 
 
-class MissionSerializer(serializers.ModelSerializer):
+class MissionSerializer(UpdatableFieldsModelSerializerMixin, serializers.ModelSerializer):
     cat = serializers.PrimaryKeyRelatedField(
         queryset=SpyCat.objects.all(),
         required=False
@@ -43,28 +44,6 @@ class MissionSerializer(serializers.ModelSerializer):
             # todo refuse with notes
             Target.objects.create(mission=mission, **target_data)
         return mission
-
-    @method_decorator(atomic)
-    def update(self, instance: Mission, validated_data: dict):
-        self.__check_validated_data_has_only_updatable_fields(validated_data)
-        mission = self.__perform_update(instance, validated_data)
-        return mission
-
-    def __perform_update(self, mission: Mission, validated_data: dict):
-        for field, value in validated_data.items():
-            setattr(mission, field, value)
-        mission.save()
-        return mission
-
-    def __check_validated_data_has_only_updatable_fields(self, validated_data: dict):
-        validated_fields = set(validated_data.keys())
-        updatable_fields = set(self.Meta.updatable_fields)
-        invalid_fields = validated_fields - updatable_fields
-        if invalid_fields:
-            raise ValidationError(
-                f"The following fields cannot be updated: {list(invalid_fields)}. "
-                f"Only these fields can be updated: {list(updatable_fields)}"
-            )
 
     def validate_cat(self, value):
         # check whether we work with already existing mission
