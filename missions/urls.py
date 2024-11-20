@@ -1,11 +1,12 @@
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import SimpleRouter
 
 from missions.views import MissionViewSet
 
+router = SimpleRouter()
+
+router.register('missions', MissionViewSet)
+
 urlpatterns = [
-    path('missions/', MissionViewSet.as_view({'post': 'create', 'get': 'list'})),
-    path(
-        'missions/<int:pk>/',
-        MissionViewSet.as_view({'patch': 'partial_update', 'delete': 'destroy'})
-    )
+    path('', include(router.urls))
 ]
