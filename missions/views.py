@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db.transaction import atomic
 from django.utils.decorators import method_decorator
-from rest_framework.exceptions import ValidationError as DRFValidationError
+from rest_framework.exceptions import MethodNotAllowed, ValidationError as DRFValidationError
 from rest_framework.viewsets import ModelViewSet
 
 from missions.models import Mission
@@ -18,3 +18,8 @@ class MissionViewSet(ModelViewSet):
             return super().destroy(request, *args, **kwargs)
         except DjangoValidationError as e:
             raise DRFValidationError(e.message)
+
+    def update(self, request, *args, **kwargs):
+        # DRF considers PUT to have all model's fields and throws an exception
+        # when only some of them are included, which is the desired behavior of updating a mission
+        raise MethodNotAllowed
