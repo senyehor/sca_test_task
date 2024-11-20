@@ -8,7 +8,7 @@ class Target(models.Model):
     is_complete = models.BooleanField(default=False)
     mission = models.ForeignKey(
         'missions.Mission',
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
         related_name='targets'
     )
 
@@ -16,7 +16,7 @@ class Target(models.Model):
 class TargetNote(models.Model):
     target = models.ForeignKey(
         'missions.Target',
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
         related_name='notes'
     )
     topic = models.CharField(max_length=100)
