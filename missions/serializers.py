@@ -60,8 +60,10 @@ class MissionSerializer(UpdatableFieldsModelSerializerMixin, serializers.ModelSe
             raise ValidationError('Cannot create a completed mission')
         mission = Mission.objects.create(**validated_data)
         for target_data in targets_data:
-            # todo refuse with notes
-            Target.objects.create(mission=mission, **target_data)
+            notes_data = target_data.pop('notes', [])
+            target = Target.objects.create(mission=mission, **target_data)
+            for note_data in notes_data:
+                TargetNote.objects.create(target=target, **note_data)
         return mission
 
     def validate_cat(self, value):
