@@ -1,0 +1,6 @@
+SECRET_KEY=pc1*l9gzfbe7=@t3%#i%k+md&)m=a2*o6=)s5neb@m%_u4k-y6
+DEBUG=False
+DATABASE_URL=postgresql://postgres:password@db:5432/sca
+CATS_API_KEY=live_bbYKyALzCqG1xcbfTigRNbpUwr0zMdOf8X6WF244FVu0mf6I5Myk0jNwhoAVawra
+APP_PORT=8000
+ALLOWED_HOSTS=localhost,
