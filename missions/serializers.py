@@ -36,6 +36,8 @@ class MissionSerializer(serializers.ModelSerializer):
     @method_decorator(atomic)
     def create(self, validated_data: dict):
         targets_data = validated_data.pop('targets')
+        if validated_data.get('is_complete', None) is True:
+            raise ValidationError('Cannot create a completed mission')
         mission = Mission.objects.create(**validated_data)
         for target_data in targets_data:
             # todo refuse with notes
