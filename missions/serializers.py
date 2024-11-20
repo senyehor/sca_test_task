@@ -67,8 +67,9 @@ class MissionSerializer(serializers.ModelSerializer):
             )
 
     def validate_cat(self, value):
-        if mission_id := self.initial_data.get('id', None):
-            if Mission.objects.filter(cat_id=value).exclude(id=mission_id).exists():
+        # check whether we work with already existing mission
+        if self.instance:
+            if Mission.objects.filter(cat_id=value).exclude(id=self.instance.id).exists():
                 raise ValidationError('The cat is already assigned a mission')
         return value
 
