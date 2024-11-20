@@ -7,4 +7,3 @@ class SpyCatSerializer(serializers.ModelSerializer):
     class Meta:
         model = SpyCat
         fields = ('id', 'name', 'years_of_experience', 'breed', 'salary')
-        read_only_fields = ('id',)
