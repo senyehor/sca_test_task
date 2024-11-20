@@ -13,6 +13,11 @@ class TargetNoteSerializer(serializers.ModelSerializer):
         model = TargetNote
         fields = ['id', 'target', 'topic', 'content']
 
+    def update(self, instance: TargetNote, validated_data: dict):
+        if instance.target.is_complete or instance.target.mission.is_complete:
+            raise ValidationError('Cannot edit note of a completed target or mission')
+        return super().update(instance, validated_data)
+
 
 class TargetSerializer(UpdatableFieldsModelSerializerMixin, serializers.ModelSerializer):
     notes = TargetNoteSerializer(many=True, required=False)
