@@ -65,10 +65,12 @@ class MissionSerializer(UpdatableFieldsModelSerializerMixin, serializers.ModelSe
         return mission
 
     def validate_cat(self, value):
-        # check whether we work with already existing mission
-        if self.instance:
-            if Mission.objects.filter(cat_id=value).exclude(id=self.instance.id).exists():
-                raise ValidationError('The cat is already assigned a mission')
+        missions_that_are_assigned_to_the_cat = Mission.objects.filter(cat_id=value)
+        if self.instance:  # check whether we work with already existing mission
+            missions_that_are_assigned_to_the_cat = \
+                missions_that_are_assigned_to_the_cat.exclude(id=self.instance.id)
+        if missions_that_are_assigned_to_the_cat.exists():
+            raise ValidationError('The cat is already assigned a mission')
         return value
 
     def validate_targets(self, value):
