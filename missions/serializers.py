@@ -9,10 +9,21 @@ from utils.updatable_fields_model_serializer_mixin import UpdatableFieldsModelSe
 
 
 class TargetNoteSerializer(UpdatableFieldsModelSerializerMixin, serializers.ModelSerializer):
+    # target should be provided to .save() method
+    target = serializers.PrimaryKeyRelatedField(
+        queryset=Target.objects.all(),
+        required=False
+    )
+
     class Meta:
         model = TargetNote
         fields = ['id', 'target', 'topic', 'content']
         updatable_fields = ('topic', 'content')
+
+    def save(self, target: Target = None, **kwargs):
+        if target:
+            kwargs['target'] = target
+        return super().save(**kwargs)
 
     @method_decorator(atomic)
     def update(self, instance: TargetNote, validated_data: dict):
