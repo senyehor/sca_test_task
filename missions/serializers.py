@@ -14,6 +14,7 @@ class TargetNoteSerializer(UpdatableFieldsModelSerializerMixin, serializers.Mode
         fields = ['id', 'target', 'topic', 'content']
         updatable_fields = ('topic', 'content')
 
+    @method_decorator(atomic)
     def update(self, instance: TargetNote, validated_data: dict):
         if instance.target.is_complete or instance.target.mission.is_complete:
             raise ValidationError('Cannot edit note of a completed target or mission')
