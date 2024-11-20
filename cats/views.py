@@ -5,7 +5,6 @@ from .serializers import SpyCatSerializer
 
 
 class SpyCatListCreateView(generics.ListCreateAPIView):
-    # todo add pagination
     queryset = SpyCat.objects.all()
     serializer_class = SpyCatSerializer
 
