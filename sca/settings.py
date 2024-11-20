@@ -16,7 +16,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] if DEBUG else env('ALLOWED_HOSTS').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.auth',
