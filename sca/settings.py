@@ -8,8 +8,9 @@ env = Env(
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-Env.read_env(os.path.join(BASE_DIR, '.env'))
+ENVIRONMENT = os.getenv('ENVIRONMENT', 'production')
+if ENVIRONMENT == 'development':
+    Env.read_env(os.path.join(BASE_DIR, 'api.development.env'))
 
 SECRET_KEY = env('SECRET_KEY')
 
@@ -40,6 +41,7 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE':                7,
+    'DEFAULT_ORDERING':         'id'
 }
 
 ROOT_URLCONF = 'sca.urls'
